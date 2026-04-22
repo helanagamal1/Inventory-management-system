@@ -6,8 +6,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OpenItem {
+//    private InventoryDatabase db;
+//    private JComboBox<String> categoryBox;
 
     public OpenItem(Item item, String mode, InventoryDatabase db, InventoryList list) throws SQLException {
+
+//        this.db = db;
+//        categoryBox = new JComboBox<>();
+     //   refreshCategories(); //  refrsh dropdown
+
+
         JFrame frame = new JFrame("Item Details");
         frame.setLayout(new BorderLayout());
         frame.setSize(600, 400);
@@ -40,7 +48,19 @@ public class OpenItem {
         ArrayList<Category> categories = db.getCategories();
         for (Category cat : categories) categoryBox.addItem(cat.getName());
         categoryBox.setSelectedItem(item.getCategory());
-        form.add(categoryBox);
+        //form.add(categoryBox);
+
+
+        //last update : ### to fix the add categoty as it  didn't appear
+        JButton addCategory = GUI.button("+", new Color(39, 82, 163));
+        addCategory.setToolTipText("Add new category");
+        addCategory.addActionListener(e -> new OpenCategory(db));
+
+        JPanel categoryPanel = new JPanel(new BorderLayout());
+        categoryPanel.add(categoryBox, BorderLayout.CENTER);
+        categoryPanel.add(addCategory, BorderLayout.EAST);
+        form.add(categoryPanel);
+// last update end
 
         JButton cancel = GUI.button("Cancel", new Color(208, 11, 3));
         cancel.addActionListener(e -> frame.dispose());
@@ -88,8 +108,22 @@ public class OpenItem {
             qtyField.setEditable(false);
             priceField.setEditable(false);
             categoryBox.setEnabled(false);
+            addCategory.setEnabled(false);
         }
 
         frame.setVisible(true);
     }
+
+
+
+//    private void refreshCategories() {
+//        categoryBox.removeAllItems();
+//        try {
+//            ArrayList<Category> categories = db.getCategories();
+//            for (Category cat : categories) categoryBox.addItem(cat.getName());
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Failed to load categories: " + ex.getMessage());
+//        }
+//    }
+
 }

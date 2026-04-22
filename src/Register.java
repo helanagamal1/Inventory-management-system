@@ -22,6 +22,15 @@ public class Register {
 
         JButton register = GUI.button("Register", new Color(88, 179, 88));
         register.addActionListener(e -> {
+
+            //add this 5 lines to prevent empty strings
+            String usernameText = username.getText().trim();
+            String passwordText = new String(password.getPassword()).trim();
+            if (usernameText.isEmpty() || passwordText.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Username and password cannot be empty.");
+                return;
+            }
+
             if (!new String(password.getPassword()).equals(new String(confirm.getPassword()))) {
                 JOptionPane.showMessageDialog(frame, "Passwords do not match.");
                 return;
@@ -29,16 +38,38 @@ public class Register {
             User user = new User();
             user.setUsername(username.getText());
             user.setPassword(new String(password.getPassword()));
-            try {
-                db.insertUser(user);
-                JOptionPane.showMessageDialog(frame, "Account created.");
-                frame.dispose();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(frame, ex.toString());
-            }
+
+                try {
+                    db.insertUser(user);
+                    JOptionPane.showMessageDialog(frame, "Account created.");
+                    frame.dispose();
+                    CreateAccount loginPage = new CreateAccount(db);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(frame, ex.toString());
+                }
+
         });
         frame.add(register);
 
+
+
+
+      //add button goes to Login Page
+        JButton loginButton = new JButton("Already have an account?");
+        loginButton.setBorderPainted(false);
+        loginButton.setContentAreaFilled(false);
+        loginButton.setForeground(Color.BLUE);
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        loginButton.addActionListener(e -> {
+                    frame.dispose();//close regier frame (register form/page)
+                    CreateAccount loginForm = new CreateAccount(db);
+
+                });
+        frame.add(loginButton);
+
+
         frame.setVisible(true);
+
     }
 }

@@ -42,6 +42,12 @@ public class InventoryList {
 
         frame.add(top, BorderLayout.NORTH);
 
+
+        JButton manageCategories = GUI.button("Manage Categories", new Color(255, 165, 0));
+        manageCategories.addActionListener(e -> new CategoryList(database));
+        top.add(manageCategories, BorderLayout.WEST);
+
+
         gridLayout = new GridLayout(8, 1, 0, 0);
         table = new JPanel(gridLayout);
         table.setBackground(Color.white);
@@ -57,7 +63,19 @@ public class InventoryList {
         frame.add(sp, BorderLayout.CENTER);
 
         frame.setVisible(true);
+
+
+
+//        JButton addCategory = GUI.button("Add Category", new Color(255, 165, 0));
+//        addCategory.addActionListener(e -> new OpenCategory(db, () -> refreshCategories()));
+//        top.add(addCategory, BorderLayout.WEST);
+
+
+
     }
+
+
+
 
     public void refresh(ArrayList<Item> items) {
         table.removeAll();

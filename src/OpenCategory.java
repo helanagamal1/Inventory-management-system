@@ -1,9 +1,14 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class OpenCategory {
+
+
+
 
     public OpenCategory(InventoryDatabase db) {
         JFrame frame = new JFrame("Add Category");
@@ -20,6 +25,7 @@ public class OpenCategory {
             try {
                 db.insertCategory(new Category(nameField.getText()));
                 JOptionPane.showMessageDialog(frame, "Category added.");
+               // onSaveRefresh.run(); //  refresh dropdown
                 frame.dispose();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(frame, ex.toString());
@@ -27,6 +33,8 @@ public class OpenCategory {
         });
         frame.add(save);
 
+
         frame.setVisible(true);
     }
+
 }
